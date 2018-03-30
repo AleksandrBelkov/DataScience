@@ -5,7 +5,7 @@ best <- function(state, outcome) {
   ##rate
   
   ##read data file
-  setwd("C:/GitHub/Coursera/C2W3/ProgrammingAssignment3/")
+  setwd("C:/GitHub/DataScience/DataScience/C2W4/ProgrammingAssignment3/")
   file_list<-as.character(list.files())
   hospital_data<-read.csv(file_list[4], na.strings="Not Available", stringsAsFactors = FALSE)
   
