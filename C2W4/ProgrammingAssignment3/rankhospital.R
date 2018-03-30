@@ -45,28 +45,18 @@ rankhospital <- function(state, outcome, num) {
   }
   
   clear_data1<-clear_data[,-2]
-  clear_data2<-as.numeric(gsub(",",".",nn_result[,2]))
-  end_data<-data.frame(Name = clear_data1, Illness = clear_data2)
-  ord_data<-order(end_data$Illness)
+  clear_data2<-as.numeric(gsub(",",".",clear_data[,2]))
+  end_data<-data.frame(Name = clear_data1, Illness = clear_data2, stringsAsFactors = FALSE)
+  ord_data<-end_data[order(end_data$Illness,end_data$Name),]
     
   if (num == "worst"){
-    illness <-11
-  } else if (outcome == "heart failure") {
-    illness<-17
+    final_result <-nrow(ord_data)
+  } else if (num == "best") {
+    final_result<-1
   } else {
-    illness<-23
+    final_result<-num
   }
   
   
-  ##result<-as.numeric(gsub(",",".",result_data[,illness]))
-  
-  ##na_result<-result[!is.na(result)]
-  ##sort(na_result)
-  
-  best_data=min(na_result)
-  
-  best_hospital<-subset(result_data[,2],as.numeric(result_data[,illness])==best_data)
-  
-  
-  return(sort(best_hospital))
+  return(ord_data[1,num])
 }
