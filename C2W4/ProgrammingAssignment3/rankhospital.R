@@ -27,14 +27,25 @@ rankhospital <- function(state, outcome, num) {
     }
   }
   
-  if(num>nrow(result_data)) {
-    return(NA)
-  }
   
   ##Define result
   result_data<-subset(hospital_data,hospital_data[,7]==state)
   na_result<-result_data[complete.cases(result_data[,illness]),]
   
+  if(num>nrow(na_result)) {
+    if (num == "best") {
+      final_index<-1
+    } else if (num == "worst"){
+      final_index <-nrow(na_result)
+    } else {
+      return(NA)
+    } 
+  } else {  
+    final_index<-num
+  }
+  
+  
+
   ##Clear data for rank define
   if (illness == 11){
     clear_data<-na_result[,-c(1,3:10,12:46)]
@@ -48,15 +59,6 @@ rankhospital <- function(state, outcome, num) {
   clear_data2<-as.numeric(gsub(",",".",clear_data[,2]))
   end_data<-data.frame(Name = clear_data1, Illness = clear_data2, stringsAsFactors = FALSE)
   ord_data<-end_data[order(end_data$Illness,end_data$Name),]
-    
-  if (num == "worst"){
-    final_result <-nrow(ord_data)
-  } else if (num == "best") {
-    final_result<-1
-  } else {
-    final_result<-num
-  }
   
-  
-  return(ord_data[1,num])
+  return(ord_data[final_index,1])
 }
